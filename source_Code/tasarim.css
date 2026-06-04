@@ -1,0 +1,14 @@
+body {
+    display: flex;
+    justify-content: center; /* Yatayda ortalar */
+    align-items: center;     /* Dikeyde ortalar */
+    height: 100vh;           /* Sayfa yüksekliğinin tamamını kaplar */
+    margin: 0;               /* Varsayılan boşlukları sıfırlar */
+    background-color: #7c97b2; 
+}
+
+#centerbox {
+  margin: auto;
+  text-align: center;
+  background-color: aquamarine;
+}
