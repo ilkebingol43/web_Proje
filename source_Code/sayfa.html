@@ -1,26 +1,36 @@
 <!DOCTYPE html>
-<html lang="en"> <!-- Sayfada kullanılacak dil-->
+<html lang="tr">
 <head>
-    <meta charset="UTF-8">    <!--  kullanacağı işaretler  -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- telefonlar için uyarlama-->
-    <title>Calculator</title>
-    <link rel="stylesheet" href="tasarim.css"> <!-- css dosyası bağlandı-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not Hesaplayici</title>
+    <link rel="stylesheet" href="tasarim.css">
 </head>
 <body>
+    <header class="ust">
+        <img id="logo" src="logo.png" alt="Logo">
+        <nav>
+            <a href="sayfa.html">Ana Sayfa</a>
+            <a href="Lise.html">Lise</a>
+            <a href="University.html">Universite</a>
+        </nav>
+    </header>
 
-     <div id="centerBox">
-     
-     
-     
-     
-     
-     
-     </div>
+    <main class="ana-kutu">
+        <h1>Calculate Your Future</h1>
+        <p>Ogrenci notlarini kolayca hesaplayan basit bir web sitesi.</p>
 
-  <script src="function.js">  
+        <div class="secenekler">
+            <a class="kart" href="Lise.html">
+                <h2>Lise Not Hesaplama</h2>
+                <p>Yazili, performans ve proje notlarinin ortalamasini hesapla.</p>
+            </a>
 
-
-
-    </script> <!-- js dosyası bağlandı-->
+            <a class="kart" href="University.html">
+                <h2>Universite Not Hesaplama</h2>
+                <p>Vize ve final notuna gore basari notunu hesapla.</p>
+            </a>
+        </div>
+    </main>
 </body>
 </html>

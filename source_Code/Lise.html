@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lise Not Hesaplama</title>
+    <link rel="stylesheet" href="tasarim.css">
+</head>
+<body>
+    <header class="ust">
+        <img id="logo" src="logo.png" alt="Logo">
+        <nav>
+            <a href="sayfa.html">Ana Sayfa</a>
+            <a href="Lise.html">Lise</a>
+            <a href="University.html">Universite</a>
+        </nav>
+    </header>
+
+    <main class="form-kutu">
+        <h1>Lise Not Hesaplama</h1>
+
+        <p>Istedigin kadar sinav ekleyip ortalama hesaplayabilirsin.</p>
+
+        <div id="liseSinavlari"></div>
+
+        <button type="button" onclick="sinavEkle()">Sinav Ekle</button>
+        <button onclick="liseHesapla()">Hesapla</button>
+
+        <p class="sonuc" id="liseSonuc">Sonuc burada gorunecek.</p>
+    </main>
+
+    <script src="function.js"></script>
+</body>
+</html>
