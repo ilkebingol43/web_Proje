@@ -6,19 +6,70 @@ function notAl(input) {
     return Number(input.value);
 }
 
-function sinavEkle() {
-    let liste = document.getElementById("liseSinavlari");
+function metinTemizle(metin) {
+    return metin
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+function liseDersEkle() {
+    let liste = document.getElementById("liseDersleri");
+    let satir = document.createElement("div");
+
+    satir.className = "lise-ders-satiri";
+    satir.innerHTML =
+        "<label>Ders Adi" +
+        "<input class='lise-ders-adi' type='text' placeholder='Matematik'>" +
+        "</label>" +
+        "<div class='lise-sinavlar'></div>" +
+        "<div class='lise-ders-butonlari'>" +
+        "<button class='sinav-ekle-buton' type='button' onclick='liseSinavEkle(this)'>Sinav Ekle</button>" +
+        "<button class='sil-buton' type='button' onclick='liseDersSil(this)'>Dersi Sil</button>" +
+        "</div>";
+
+    liste.appendChild(satir);
+    liseSinavEkle(satir.querySelector(".sinav-ekle-buton"));
+    liseSinavEkle(satir.querySelector(".sinav-ekle-buton"));
+}
+
+function liseSinavEkle(buton) {
+    let dersSatiri = buton.closest(".lise-ders-satiri");
+    let liste = dersSatiri.querySelector(".lise-sinavlar");
     let satir = document.createElement("div");
     let sira = liste.children.length + 1;
 
     satir.className = "sinav-satiri";
     satir.innerHTML =
-        "<label>" + sira + ". Sinav Notu" +
+        "<label><span class='sinav-not-baslik'>" + sira + ". Sinav Notu</span>" +
         "<input class='lise-not' type='number' min='0' max='100'>" +
         "</label>" +
-        "<button class='sil-buton' type='button' onclick='satirSil(this)'>Sil</button>";
+        "<button class='sil-buton' type='button' onclick='liseSinavSil(this)'>Sil</button>";
 
     liste.appendChild(satir);
+}
+
+function sinavlariNumaralandir(dersSatiri) {
+    let sinavlar = dersSatiri.querySelectorAll(".sinav-satiri");
+
+    for (let i = 0; i < sinavlar.length; i++) {
+        let sira = i + 1;
+        let sinavNotBaslik = sinavlar[i].querySelector(".sinav-not-baslik");
+
+        sinavNotBaslik.textContent = sira + ". Sinav Notu";
+    }
+}
+
+function liseSinavSil(buton) {
+    let dersSatiri = buton.closest(".lise-ders-satiri");
+    buton.parentElement.remove();
+    sinavlariNumaralandir(dersSatiri);
+}
+
+function liseDersSil(buton) {
+    buton.closest(".lise-ders-satiri").remove();
 }
 
 function satirSil(buton) {
@@ -26,16 +77,48 @@ function satirSil(buton) {
 }
 
 function liseHesapla() {
-    let notlar = document.querySelectorAll(".lise-not");
+    let dersler = document.querySelectorAll(".lise-ders-satiri");
     let toplam = 0;
     let adet = 0;
+    let sonucYazisi = "<strong>Ders Sonuclari</strong><ul class='sonuc-listesi'>";
 
-    for (let i = 0; i < notlar.length; i++) {
-        let not = notAl(notlar[i]);
+    if (dersler.length === 0) {
+        document.getElementById("liseSonuc").innerHTML = "Lutfen en az bir ders ekleyiniz.";
+        return;
+    }
 
-        if (not !== null) {
-            toplam = toplam + not;
-            adet++;
+    for (let i = 0; i < dersler.length; i++) {
+        let dersAdi = dersler[i].querySelector(".lise-ders-adi").value.trim();
+        let sinavlar = dersler[i].querySelectorAll(".sinav-satiri");
+        let dersToplam = 0;
+        let dersAdet = 0;
+        let sinavYazisi = "";
+
+        if (dersAdi === "") {
+            dersAdi = "Ders " + (i + 1);
+        }
+
+        for (let j = 0; j < sinavlar.length; j++) {
+            let not = notAl(sinavlar[j].querySelector(".lise-not"));
+
+            if (not !== null) {
+                toplam = toplam + not;
+                adet++;
+                dersToplam = dersToplam + not;
+                dersAdet++;
+                sinavYazisi = sinavYazisi + (j + 1) + ". Sinav: " + not.toFixed(2) + " ";
+            }
+        }
+
+        if (dersAdet > 0) {
+            let dersOrtalama = dersToplam / dersAdet;
+            let dersDurum = dersOrtalama >= 50 ? "Gecti" : "Kaldi";
+
+            sonucYazisi = sonucYazisi +
+                "<li>" + metinTemizle(dersAdi) + " - " +
+                sinavYazisi +
+                "Ortalama: " + dersOrtalama.toFixed(2) + " / " +
+                dersDurum + "</li>";
         }
     }
 
@@ -46,11 +129,13 @@ function liseHesapla() {
 
     let ortalama = toplam / adet;
     let durum = ortalama >= 50 ? "Gecti" : "Kaldi";
+    sonucYazisi = sonucYazisi + "</ul>";
 
     document.getElementById("liseSonuc").innerHTML =
-        "Sinav Sayisi: " + adet + "<br>" +
-        "Ortalama: " + ortalama.toFixed(2) + "<br>" +
-        "Durum: " + durum;
+        sonucYazisi +
+        "Toplam Sinav Sayisi: " + adet + "<br>" +
+        "Genel Ortalama: " + ortalama.toFixed(2) + "<br>" +
+        "Genel Durum: " + durum;
 }
 
 function dersEkle() {
@@ -136,9 +221,8 @@ function universiteHesapla() {
 }
 
 window.onload = function () {
-    if (document.getElementById("liseSinavlari")) {
-        sinavEkle();
-        sinavEkle();
+    if (document.getElementById("liseDersleri")) {
+        liseDersEkle();
     }
 
     if (document.getElementById("universiteDersleri")) {

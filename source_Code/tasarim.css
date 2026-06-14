@@ -86,7 +86,7 @@ input {
     font-size: 16px;
 }
 
-.sinav-satiri,
+.lise-ders-satiri,
 .ders-satiri {
     display: grid;
     gap: 10px;
@@ -98,8 +98,22 @@ input {
     background: #f8fafc;
 }
 
+.lise-ders-satiri {
+    grid-template-columns: 1fr 2fr 150px;
+}
+
+.lise-sinavlar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    align-items: end;
+}
+
 .sinav-satiri {
-    grid-template-columns: 1fr 120px;
+    display: grid;
+    grid-template-columns: 1fr 70px;
+    gap: 8px;
+    align-items: end;
 }
 
 .ders-satiri {
@@ -129,6 +143,16 @@ button:hover {
 
 .sil-buton:hover {
     background: #991b1b;
+}
+
+.lise-ders-butonlari {
+    display: grid;
+    gap: 8px;
+}
+
+.lise-ders-butonlari button,
+.sinav-satiri .sil-buton {
+    margin-top: 0;
 }
 
 .sonuc {
@@ -169,6 +193,7 @@ button:hover {
         display: block;
     }
 
+    .lise-ders-satiri,
     .sinav-satiri,
     .ders-satiri {
         grid-template-columns: 1fr;
